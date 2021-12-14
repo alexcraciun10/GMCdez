@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../Firebase/AuthContext';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { LOG_IN } from '../../constants/routes';
+import { SIGNIN } from '../../constants/routes';
 import { db } from '../Firebase/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 
 export default function Admin() {
     const [error, setError] = useState('');
     const { currentUser, logout } = useAuth();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [piese, setPiese] = useState([]);
     const pieseCollectionRef = collection(db, 'piese');
@@ -27,7 +27,7 @@ export default function Admin() {
 
         try {
             await logout();
-            history.push(LOG_IN);
+            navigate(SIGNIN);
         } catch {
             setError('Failed to log out');
         }
